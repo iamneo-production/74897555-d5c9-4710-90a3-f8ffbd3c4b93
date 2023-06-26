@@ -7,6 +7,8 @@ const App = () => {
     <div>
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/taskcreation" element={<TaskCreationPage />} />
+        <Route path="/edittask" element={<TaskEditPage />} />
       </Routes>
     </div>
   );
