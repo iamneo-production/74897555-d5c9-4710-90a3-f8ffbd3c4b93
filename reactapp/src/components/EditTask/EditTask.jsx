@@ -36,19 +36,6 @@ const TaskEditPage = () => {
       });
   }, []);
 
-  useEffect(() => {
-    loadTask();
-  }, []);
-
-  const loadTask = async () => {
-    try {
-      const response = await axios.get(`http://localhost:8080/task/${id}`);
-      setTask(response.data);
-    } catch (error) {
-      console.error('Error fetching task:', error);
-    }
-  };
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTask(prevTask => ({ ...prevTask, [name]: value }));
@@ -56,12 +43,6 @@ const TaskEditPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      await axios.put(`http://localhost:8080/task/${id}`, task);
-      console.log('Task updated successfully!');
-    } catch (error) {
-      console.error('Error updating task:', error);
-    }
   };
 
   return (
