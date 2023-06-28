@@ -1,6 +1,7 @@
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
+import Communication from "./components/communication/Communication";
 import ProjectCreate from "./components/ProjectCreate/ProjectCreate";
 import TaskCreation from "./components/TaskCreation/TaskCreation";
 import EditTask from "./components/EditTask/EditTask";
@@ -16,6 +17,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/communication" element={<Communication/>}/>
         <Route path="/taskcreation" element={<TaskCreation />} />
         <Route path="/edittask" element={<EditTask />} />
         <Route path="/projects" element={<ProjectCreate/>}/>
