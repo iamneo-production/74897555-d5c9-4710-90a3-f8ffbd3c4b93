@@ -10,6 +10,7 @@ import EditProject from "./components/EditProject/EditProject";
 import ReportDetails from "./components/Report/ReportDetails";
 import TaskDetails from "./pages/TaskDetails";
 import Home from "./pages/Home";
+import ProjecrDetails from "./components/ProjectDetails/ProjectDetails";
 const App = () => {
   return (
     <div>
@@ -21,7 +22,7 @@ const App = () => {
         <Route path="/taskcreation" element={<TaskCreation />} />
         <Route path="/edittask" element={<EditTask />} />
         <Route path="/projects" element={<ProjectCreate />} />
-        <Route path="/projectdetails" element={<ProjDet />} />
+        <Route path="/projectdetails" element={<ProjecrDetails />} />
         <Route path="/report" element={<ReportDetails />} />
         <Route path="/editproject" element={<EditProject />} />
         {/* change path once merge backend */}
