@@ -17,12 +17,14 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/communication" element={<Communication/>}/>
+        <Route path="/communication" element={<Communication />} />
         <Route path="/taskcreation" element={<TaskCreation />} />
         <Route path="/edittask" element={<EditTask />} />
-        <Route path="/projects" element={<ProjectCreate/>}/>
+        <Route path="/projects" element={<ProjectCreate />} />
+        <Route path="/projectdetails" element={<ProjDet />} />
         <Route path="/report" element={<ReportDetails />} />
-        <Route path="/editproject"element={<EditProject/>}/>{/* change path once merge backend */}
+        <Route path="/editproject" element={<EditProject />} />
+        {/* change path once merge backend */}
         <Route path="/projects" element={<ProjectCreate />} />
         <Route path="/editproject" element={<EditProject />} />
         {/* change path once merge backend */}
