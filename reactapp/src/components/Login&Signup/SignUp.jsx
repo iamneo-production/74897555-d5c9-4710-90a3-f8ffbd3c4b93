@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { BASE_URL } from "../../utils/connect";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const SignUp = ({ setSign }) => {
-  const navigate = useNavigate();
+import { BASE_URL } from "../../utils/api";
 
+const SignUp = ({ setSign }) => {
   const [error, setError] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
@@ -25,10 +23,28 @@ const SignUp = ({ setSign }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(formData.email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (formData.password.length < 6) {
+      setError("Password should be at least 6 characters long.");
+      return;
+    }
+
     try {
-      const response = await axios.post(`${BASE_URL}/api/v1/users`, formData);
+      const response = await axios.post(
+        `${BASE_URL}/api/v1/auth/users`,
+        formData
+      );
       console.log(response.data);
-      navigate("/");
+      const { token } = response.data;
+      localStorage.setItem("token", token);
+      window.location.reload();
+      console.log("Navigation Done!");
     } catch (error) {
       setError("An error occurred. Please try again.");
       console.error("Error:", error.response.data);
@@ -39,7 +55,7 @@ const SignUp = ({ setSign }) => {
     <main>
       <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 text-center">
         <h1>Register</h1>
-        {error && <p>{error.message}</p>}
+        {error && <p>{error}</p>}
         <form onSubmit={handleSubmit}>
           <label>
             First Name:
@@ -49,6 +65,7 @@ const SignUp = ({ setSign }) => {
               className="form-control form-control-sm "
               value={formData.firstName}
               onChange={handleInputChange}
+              required
             />
           </label>
           <br />
@@ -61,6 +78,7 @@ const SignUp = ({ setSign }) => {
               className="form-control form-control-sm "
               value={formData.lastName}
               onChange={handleInputChange}
+              required
             />
           </label>
           <br />
@@ -72,6 +90,7 @@ const SignUp = ({ setSign }) => {
               className="form-control form-control-sm "
               value={formData.username}
               onChange={handleInputChange}
+              required
             />
           </label>
           <br />
@@ -84,6 +103,7 @@ const SignUp = ({ setSign }) => {
               className="form-control form-control-sm "
               value={formData.email}
               onChange={handleInputChange}
+              required
             />
           </label>
           <br />
@@ -96,6 +116,7 @@ const SignUp = ({ setSign }) => {
               className="form-control form-control-sm "
               value={formData.password}
               onChange={handleInputChange}
+              required
             />
           </label>
           <br />
