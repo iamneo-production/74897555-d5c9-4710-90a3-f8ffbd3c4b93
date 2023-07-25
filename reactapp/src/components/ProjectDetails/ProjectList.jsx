@@ -1,6 +1,7 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import api from "../../utils/api";
+import { useNavigate, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 const ProjectList = ({
   projectId,
   projectName,
@@ -12,6 +13,24 @@ const ProjectList = ({
   //onEditProject,
   //onDeleteProject,
 }) => {
+  const decodedToken = JSON.parse(localStorage.getItem("decodedToken"));
+
+  const navigate = useNavigate();
+  const deleteProject = async (projectid) => {
+    await api.delete(`http://localhost:8080/projects/${projectid}`, projectid);
+    sweetalert();
+    setTimeout(() => {
+      navigate("/");
+    }, 2000);
+  };
+  const sweetalert = () => {
+    Swal.fire({
+      icon: "success",
+      text: "Project Deleted Successfully 👍",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  };
   return (
     <div>
       <div className="d-flex justify-content-center align-item-center vh-60">
@@ -50,44 +69,37 @@ const ProjectList = ({
             <br />
           </div>
           <div className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center">
-            <Link to="/editproject">
-              <button
-                className="btn btn-info btn-lg pt-3 pb-3 ps-4 pe-4 text-white"
-                // onClick={onEditProject}
-              >
-                {" "}
-                Edit Project
-              </button>
-            </Link>
+            {decodedToken.role === "MANAGER" ? (
+              <Link to={`/projects/${projectId}`}>
+                <button className="btn btn-info btn-lg pt-3 pb-3 ps-4 pe-4 text-white">
+                  Edit Project
+                </button>
+              </Link>
+            ) : null}
             <br />
-            <button
-              className="btn btn-danger btn-lg pt-3 pb-3 ps-4 pe-4"
-              // onClick={onDeleteProject}
-            >
-              {" "}
-              Delete Project{" "}
-            </button>
+            {decodedToken.role === "MANAGER" ? (
+              <button
+                className="btn btn-danger btn-lg pt-3 pb-3 ps-4 pe-4"
+                onClick={() => deleteProject(projectId)}
+              >
+                Delete Project
+              </button>
+            ) : null}
             <br />
           </div>
           <div className="m-2 text-center">
-            <Link
-              to={`/taskcreation?projectId=${projectId}&name=${projectName}`}
-            >
-              <button
-                className="btn btn-primary btn-lg pt-3 pb-3 ps-4 pe-4 text-white me-3 mb-2"
-                // onClick={onAddTask}
+            {decodedToken.role === "MANAGER" ? (
+              <Link
+                to={`/taskcreation?projectId=${projectId}&name=${projectName}`}
               >
-                {" "}
-                Add Task
-              </button>
-            </Link>
-            <Link to="/tasklist">
-              <button
-                className="btn btn-primary btn-lg pt-3 pb-3 ps-4 pe-4 text-white mb-2"
-                // onClick={onViewTaskDetails}
-              >
-                {" "}
-                View Task Details{" "}
+                <button className="btn btn-primary btn-lg pt-3 pb-3 ps-4 pe-4 text-white me-3 mb-2">
+                  Add Task
+                </button>
+              </Link>
+            ) : null}
+            <Link to={`/tasklist?projectId=${projectId}`}>
+              <button className="btn btn-primary btn-lg pt-3 pb-3 ps-4 pe-4 text-white mb-2">
+                View Task Details
               </button>
             </Link>
           </div>
