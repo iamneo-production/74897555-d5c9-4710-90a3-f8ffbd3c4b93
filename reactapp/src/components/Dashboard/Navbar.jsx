@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { TokenContext } from "../../utils/TokenContext";
 
 const Navbar = () => {
+  const { decodedToken } = useContext(TokenContext);
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-expand-md navbar-dark w-100 sticky-top"
@@ -37,62 +40,77 @@ const Navbar = () => {
             ></button>
           </div>
           <div className="offcanvas-body">
-            <ul className="navbar-nav justify-content-end ms-auto ps-3">
-              <li className="nav-item ps-lg-3">
-                <Link
-                  className="nav-link "
-                  style={{
-                    fontSize: "20px",
-                    borderBottom: "2px solid transparent",
-                    transition: "border-color 0.5s",
-                  }}
-                  to="/"
-                  onMouseEnter={(e) => (e.target.style.borderColor = "#0dcaf0")}
-                  onMouseLeave={(e) =>
-                    (e.target.style.borderColor = "transparent")
-                  }
-                >
-                  <i class="fas fa-dashboard pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>{" "}
-                  Dashboard
-                </Link>
-              </li>
-              <li className="nav-item ps-lg-3">
-                <Link
-                  className="nav-link"
-                  style={{
-                    fontSize: "20px",
-                    borderBottom: "2px solid transparent",
-                    transition: "border-color 0.5s",
-                  }}
-                  to="/communication"
-                  onMouseEnter={(e) => (e.target.style.borderColor = "#0dcaf0")}
-                  onMouseLeave={(e) =>
-                    (e.target.style.borderColor = "transparent")
-                  }
-                >
-                  <i class="fas fa-comments pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>
-                  Communication
-                </Link>
-              </li>
-              <li className="nav-item ps-lg-3">
-                <Link
-                  className="nav-link"
-                  style={{
-                    fontSize: "20px",
-                    borderBottom: "2px solid transparent",
-                    transition: "border-color 0.5s",
-                  }}
-                  to="/login"
-                  onMouseEnter={(e) => (e.target.style.borderColor = "#0dcaf0")}
-                  onMouseLeave={(e) =>
-                    (e.target.style.borderColor = "transparent")
-                  }
-                >
-                  <i class="fas fa-sign-in-alt pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>{" "}
-                  Login/Register
-                </Link>
-              </li>
-            </ul>
+            {!decodedToken ? (
+              ""
+            ) : (
+              <ul className="navbar-nav justify-content-end ms-auto ps-3">
+                <li className="nav-item ps-lg-3">
+                  <Link
+                    className="nav-link "
+                    style={{
+                      fontSize: "20px",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.5s",
+                    }}
+                    to="/"
+                    onMouseEnter={(e) =>
+                      (e.target.style.borderColor = "#0dcaf0")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.borderColor = "transparent")
+                    }
+                  >
+                    <i className="fas fa-dashboard pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>{" "}
+                    Dashboard
+                  </Link>
+                </li>
+                <li className="nav-item ps-lg-3">
+                  <Link
+                    className="nav-link"
+                    style={{
+                      fontSize: "20px",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.5s",
+                    }}
+                    to="/communication"
+                    onMouseEnter={(e) =>
+                      (e.target.style.borderColor = "#0dcaf0")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.borderColor = "transparent")
+                    }
+                  >
+                    <i className="fas fa-comments pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>
+                    Communication
+                  </Link>
+                </li>
+
+                <li className="nav-item ps-lg-3">
+                  <button
+                    onClick={() => {
+                      localStorage.removeItem("token");
+                      window.location.reload();
+                    }}
+                    className="nav-link"
+                    style={{
+                      fontSize: "20px",
+                      borderBottom: "2px solid transparent",
+                      transition: "border-color 0.5s",
+                    }}
+                    to="/login"
+                    onMouseEnter={(e) =>
+                      (e.target.style.borderColor = "#0dcaf0")
+                    }
+                    onMouseLeave={(e) =>
+                      (e.target.style.borderColor = "transparent")
+                    }
+                  >
+                    <i className="fas fa-sign-in-alt pe-1 text-white d-inline-block d-md-none  d-lg-none"></i>{" "}
+                    {decodedToken.firstName + " " + decodedToken.role}
+                  </button>
+                </li>
+              </ul>
+            )}
           </div>
         </div>
       </div>
