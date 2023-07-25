@@ -1,10 +1,68 @@
-import React from "react";
-// import "../components/ReportDetails.css";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import html2canvas from "html2canvas";
-
+import api, { BASE_URL } from "../../utils/api";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
 const ReportDetails = () => {
+  const [selectedValues, setSelectedValues] = useState([]);
+  const [project, setProject] = useState({});
+  const {  projectName, startDate, endDate, description } = project;
+  const [tasks, setTask] = useState([]);
+  const [projectProgress, setProjectprogress] = useState(0);
+  const [completedTask, setCompletedTask] = useState(0);
+  const [totalTask, setTotalTask] = useState(0);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    loadProject();
+  }, []);
+
+  const loadProject = async () => {
+    try {
+      const result = await api.get(`${BASE_URL}/projects/${id}`);
+      const Data = result.data;
+      console.log(Data);
+      setProject(Data);
+      console.log("The project is " + project);
+      setSelectedValues(Data.members);
+      console.log("The members are " + selectedValues);
+      setTask(Data.tasks);
+      console.log("project = " + project);
+      console.log("task = " + tasks);
+    } catch (error) {
+      console.error("Error loading project:", error);
+    }
+  };
+
+  useEffect(
+    (e) => {
+      let completed = 0;
+      let totaltask = 0;
+      tasks.forEach((task) => {
+        totaltask++;
+        if (task.status === "completed") {
+          completed++;
+        }
+      });
+      setCompletedTask(completed);
+      setTotalTask(totaltask);
+      let total = Math.round((completed / totaltask) * 100);
+      setProjectprogress(total);
+    },
+    [tasks]
+  );
+
   const exportToPDF = () => {
     const doc = new jsPDF("portrait", "px", "a4");
 
@@ -19,87 +77,122 @@ const ReportDetails = () => {
     });
   };
 
+  const data = tasks.map((task) => {
+    const uname=(task.assignedTo).split(' ');
+    if (task.status === "pending") {
+      return { name: uname[1], progress: 0 };
+    } else if (task.status === "inprogress") {
+      return { name: uname[1], progress: 50 };
+    } else {
+      return { name: uname[1], progress: 100 };
+    }
+  });
+
   return (
     <div className="container">
       <div className="row">
         <div className="col-3">
-          <h4 className="p-3 " style={{ fontSize: "18px" }}>
-            Project Id :1 report
+          <h4 className="p-3" style={{ fontSize: "18px" }}>
+            Project Id :{id} Report
           </h4>
         </div>
         <div className="ms-auto col-auto">
-          <button className="btn btn-success  p-3 m-2" onClick={exportToPDF}>
+          <button className="btn btn-success p-1 mt-2" onClick={exportToPDF}>
             Export to PDF
           </button>
         </div>
       </div>
+      {/* --------------- project --------- */}
       <div className="print-report">
         <hr></hr>
-        <h3 className="ms-2 text-center">Project Details </h3>
-        <div className="table-responsive container">
-          <table
-            class="table table-bordered table-striped table-hover"
-            style={{ width: "700px" }}
-          >
-            <tbody>
-              <tr>
-                <th class="col-4">Project Id</th>
-                <td class="col-8">1</td>
-              </tr>
-              <tr>
-                <th class="col-4">Project Name</th>
-                <td class="col-8">Project Management Tool</td>
-              </tr>
-              <tr>
-                <th class="col-4">Description</th>
-                <td class="col-8">
-                  The objective of a Project Management Tool is to provide a
-                  centralized platform for project managers and team members to
-                  collaborate, organize, and track their project activities.
-                </td>
-              </tr>
-              <tr>
-                <th class="col-4">Assigned To</th>
-                <td class="col-8">
-                  <ul class="list-unstyled">
-                    <li>user1</li>
-                    <li>user2</li>
-                    <li>user3</li>
-                    <li>user4</li>
-                  </ul>
-                </td>
-              </tr>
-              <tr>
-                <th class="col-4">Completed Task</th>
-                <td class="col-8">4</td>
-              </tr>
-              <tr>
-                <th class="col-4">Total Task</th>
-                <td class="col-8">8</td>
-              </tr>
-              <tr>
-                <th class="col-4">Start Date</th>
-                <td class="col-8">10/01/2023</td>
-              </tr>
-              <tr>
-                <th class="col-4">End Date</th>
-                <td class="col-8">10/05/2023</td>
-              </tr>
-              <tr>
-                <th class="col-4">Status</th>
-                <td class="col-8">Started</td>
-              </tr>
-            </tbody>
-          </table>
+        <h3 className="ms-2 text-center">Project Details</h3>
+        <div className="row">
+          <div className="table-responsive container col-12 col-md-6 col-lg-6">
+            <table
+              className="table table-bordered table-striped table-hover"
+              style={{ height: "470px" }}
+            >
+              <tbody>
+                <tr>
+                  <th className="col-4">Project Id</th>
+                  <td className="col-8">{id}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">Project Name</th>
+                  <td className="col-8">{projectName}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">Description</th>
+                  <td className="col-8">{description}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">Team Members</th>
+                  <td className="col-8">
+                    {selectedValues.map((option, index) => (
+                      <span key={index}>
+                        {option.label}
+                        {index !== selectedValues.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </td>
+                </tr>
+                <tr>
+                  <th className="col-4">Completed Task</th>
+                  <td className="col-8">{completedTask}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">Total Task</th>
+                  <td className="col-8">{totalTask}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">Start Date</th>
+                  <td className="col-8">{startDate}</td>
+                </tr>
+                <tr>
+                  <th className="col-4">End Date</th>
+                  <td className="col-8">{endDate}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div className="col-12 col-md-6 col-lg-6 ">
+            <h4 className="text-center m-3">Individual Task Progress</h4>
+            <BarChart width={500} height={300} className="mx-auto" data={data}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Bar
+                dataKey="progress"
+                barSize={30}
+                fill="#8884d8"
+                background={{ fill: "#eee" }}
+              />
+            </BarChart>
+            <h4 className="text-center m-3">Project Progress</h4>
+            <div
+              className="progress border border-1 col-10 mx-auto"
+              style={{ height: "20px" }}
+            >
+              <div
+                className="progress-bar"
+                style={{ width: `${projectProgress}%` }}
+              >
+                {projectProgress}%
+              </div>
+            </div>
+          </div>
         </div>
+        {/* --------------- task --------- */}
         <h3 className="text-center">Task Details</h3>
         <div className="table-responsive container">
-          <table class="table table-bordered table-striped table-hover">
+          <table className="table table-bordered table-striped table-hover">
             <thead>
               <tr>
                 <th className="col-1 bg-info text-white">Task Id</th>
                 <th className="col-2 bg-info text-white">Task Name</th>
-                <th className="col-4 bg-info text-white">Description</th>
+                <th className="col-3 bg-info text-white">Description</th>
                 <th className="col-2 bg-info text-white">Assigned To</th>
                 <th className="col-1 bg-info text-white">Priority</th>
                 <th className="col-1 bg-info text-white">Deadline</th>
@@ -107,44 +200,24 @@ const ReportDetails = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>11</td>
-                <td>create report page</td>
-                <td>description</td>
-                <td>shiva</td>
-                <td>high</td>
-                <td>02/05/2023</td>
-                <td>started</td>
-              </tr>
-              <tr>
-                <td>12</td>
-                <td>create report page</td>
-                <td>description</td>
-                <td>shiva</td>
-                <td>high</td>
-                <td>02/05/2023</td>
-                <td>started</td>
-              </tr>
-              <tr>
-                <td>13</td>
-                <td>create report page</td>
-                <td>description</td>
-                <td>shiva</td>
-                <td>high</td>
-                <td>02/05/2023</td>
-                <td>started</td>
-              </tr>
-              <tr>
-                <td>14</td>
-                <td>create report page</td>
-                <td>description</td>
-                <td>shiva</td>
-                <td>high</td>
-                <td>02/05/2023</td>
-                <td>started</td>
-              </tr>
+              {tasks.map((task) => {
+                return (
+                  <tr key={task.id}>
+                    <td>{task.taskId}</td>
+                    <td>{task.taskName}</td>
+                    <td>{task.taskDescription}</td>
+                    <td>{((task.assignedTo).split(' '))[1]}</td>
+                    <td>{task.priority}</td>
+                    <td>{task.deadline}</td>
+                    <td>{task.status}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
+          {totalTask === 0 && (
+            <p className="col-12 text-center">No task present</p>
+          )}
         </div>
       </div>
     </div>
