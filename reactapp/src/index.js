@@ -4,12 +4,18 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import { TokenProvider } from "./utils/TokenContext";
 
+const decodedToken = JSON.parse(localStorage.getItem("decodedToken")); // Retrieve decodedToken from localStorage
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-      <App />
+    <TokenProvider decodedToken={decodedToken}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </TokenProvider>
   </React.StrictMode>
 );
 
