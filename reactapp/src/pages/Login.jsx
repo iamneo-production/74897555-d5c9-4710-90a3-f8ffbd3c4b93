@@ -4,14 +4,14 @@ import LoginPage from "../components/Login&Signup/LoginPage";
 import SignUp from "../components/Login&Signup/SignUp";
 
 const Login = () => {
-  const [sign, setSign] = useState("signup");
+  const [sign, setSign] = useState("signin");
   return (
     <main
       className="vw-100 d-flex align-items-center justify-content-center "
-      style={{ height: "85vh" }}
+      style={{ height: "100vh" }}
     >
-      <section className="row d-flex align-items-center justify-content-center w-75 rounded shadow-lg h-75 cursor-pointer bg-white pe-1">
-        <section className="col-md-8 col-lg-7 col-xl-6 text-center">
+      <section className="row d-flex align-items-center justify-content-center w-75 rounded shadow-lg h-75 cursor-pointer bg-white pe-1 ">
+        <section className="col-md-8 col-lg-7 col-xl-6 text-center d-none d-lg-block">
           {sign === "signin" && (
             <img src={SU} alt="Login" className="" height="400px" />
           )}
