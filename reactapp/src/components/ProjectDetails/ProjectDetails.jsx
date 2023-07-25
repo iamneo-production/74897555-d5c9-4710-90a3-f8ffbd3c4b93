@@ -1,41 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProjectList from "./ProjectList";
+import api, { BASE_URL } from "../../utils/api";
+import { useParams } from "react-router-dom";
 
-const ProjecrDetails = () => {
-  // Event handlers
-  /*
-    const handleAddTask = () => {
-        // Add task logic
-      };
-    
-      const handleViewTaskDetails = () => {
-        // View task details logic
-      };
-    
-      const handleEditProject = () => {
-        // Edit project logic
-      };
-    
-      const handleDeleteProject = () => {
-        // Delete project logic
-      };
-    */
+const ProjectDetails = () => {
+  const { projectId } = useParams();
+  const [projectData, setProjectData] = useState({});
+  useEffect(() => {
+    const handleFetch = async () => {
+      try {
+        const result = await api.get(`${BASE_URL}/projects/${projectId}`);
+        const data = result.data;
+        console.log(data);
+        setProjectData(data);
+      } catch (error) {
+        console.log("API Not working");
+      }
+    };
+    handleFetch();
+  }, []);
 
   return (
     <div>
       <ProjectList
-        projectId="123"
-        projectName="My Project"
-        projectDescription="This is my project"
-        projectStartDate="2023-05-01"
-        projectEndDate="2023-06-30"
-        // onAddTask={handleAddTask}
-        // onViewTaskDetails={handleViewTaskDetails}
-        // onEditProject={handleEditProject}
-        // onDeleteProject={handleDeleteProject}
+        projectId={projectId}
+        projectName={projectData.projectName}
+        projectDescription={projectData.description}
+        projectStartDate={projectData.startDate}
+        projectEndDate={projectData.endDate}
       />
     </div>
   );
 };
 
-export default ProjecrDetails;
+export default ProjectDetails;
