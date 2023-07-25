@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import SU from "../assets/undraw_access_account_re_8spm.svg";
-// import LoginPage from "../components/Login&Signup/LoginPage";
+import LoginPage from "../components/Login&Signup/LoginPage";
 import SignUp from "../components/Login&Signup/SignUp";
 
 const Login = () => {
@@ -21,8 +21,7 @@ const Login = () => {
         </section>
         <section className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
           {sign === "signup" && <SignUp setSign={setSign} />}
-          {/* 
-          {sign === "signin" && <LoginPage setSign={setSign} />}*/}
+          {sign === "signin" && <LoginPage setSign={setSign} />}
         </section>
       </section>
     </main>
