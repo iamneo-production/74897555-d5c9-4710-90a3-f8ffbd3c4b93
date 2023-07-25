@@ -5,9 +5,10 @@ import Login from "./pages/Login";
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-      </Routes>
+      <h1>Hello!</h1>
+      {/*<Routes>
+        <Route path="/" element={<Login />} />
+  </Routes>*/}
     </div>
   );
 };
