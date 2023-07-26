@@ -22,4 +22,10 @@ public class AuthenticationController {
     return ResponseEntity.ok(service.register(request));
   };
 
+  @PostMapping("/login")
+  public ResponseEntity<AuthenticationResponse> autheticate(@RequestBody AuthenticationRequest request) {
+    return ResponseEntity.ok(service.authenticate(request));
+  };
+  
 }
+

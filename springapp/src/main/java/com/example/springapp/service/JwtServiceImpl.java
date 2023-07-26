@@ -5,12 +5,14 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import com.example.springapp.model.User;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
@@ -20,6 +22,17 @@ import io.jsonwebtoken.security.Keys;
 public class JwtServiceImpl implements JwtService {
 
   private static final String SECRET_KEY = "357538782F413F4428472D4B6150645367566B59703373367639792442264529";
+
+  @Override
+  public String extractUsername(String token) {
+    return extractClaim(token, Claims::getSubject);
+  }
+
+  @Override
+  public <T> T extractClaim(String token, Function<Claims, T> claimResolver) {
+    final Claims claims = extractAllClaims(token);
+    return claimResolver.apply(claims);
+  }
 
   @Override
   public String generateToken(User userDetails,UserDetails userD) {
@@ -44,6 +57,24 @@ public class JwtServiceImpl implements JwtService {
         .signWith(getSignInKey(), SignatureAlgorithm.HS256)
         .compact();
   };
+
+  @Override
+  public boolean isTokenValid(String token, UserDetails userDetails) {
+    final String username = extractUsername(token);
+    return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+  }
+
+  private boolean isTokenExpired(String token) {
+    return extractClaim(token, Claims::getExpiration).before(new Date());
+  }
+
+  private Claims extractAllClaims(String token) {
+    return Jwts.parserBuilder()
+        .setSigningKey(getSignInKey())
+        .build()
+        .parseClaimsJws(token)
+        .getBody(); 
+  }
 
   private Key getSignInKey() {
     byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
