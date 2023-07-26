@@ -57,6 +57,52 @@ public class TaskServiceImpl implements TaskService {
         return taskRepository.save(task);   
     }
 
+    @Override
+    public List<Task> getTasksByProjectId(Long projectId) {
+        if (!projectRepository.existsById(projectId)) {
+            throw new RuntimeException("Project not found with ID: " + projectId);
+        }
+        List<Task> tasks=taskRepository.findByProjectId(projectId);
+
+        if (tasks.isEmpty()) {
+            throw new RuntimeException("No tasks found");
+        }
+        return tasks;
+    }
+
+    @Override
+    public List<Task> getTasksByUserId(int userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new RuntimeException("User not found with ID: " + userId);
+        }
+        List<Task> tasks=taskRepository.findByUserId(userId);
+
+         if (tasks.isEmpty()) {
+            throw new RuntimeException("No tasks found");
+        }
+
+        return tasks;
+    }
+
+    @Override
+    public Task getTaskById(Long id) {
+        return taskRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Task not found with id: " + id));
+    }
+
+    @Override
+    public List<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    @Override
+    public void deleteTask(Long taskId)
+    {
+        Task task=taskRepository.findById(taskId)
+                .orElseThrow(()-> new RuntimeException("Task not found with id: "+ taskId));
+        taskRepository.delete(task);
+    }
+
    
     
    
