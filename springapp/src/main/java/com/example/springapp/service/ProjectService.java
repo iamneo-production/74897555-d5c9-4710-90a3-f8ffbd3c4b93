@@ -22,8 +22,8 @@ public class ProjectService {
 	}
 
 	public Project getProjectById(Long id) {
-		Optional<Project> project = projectRepository.findById(id);
-		return project.orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
+	Optional<Project> project = projectRepository.findById(id);
+	return project.orElseThrow(() -> new RuntimeException("Project not found with id: " + id));
 	}
 
 	public List<Project> getAllProjects() {
