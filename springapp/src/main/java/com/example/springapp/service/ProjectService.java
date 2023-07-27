@@ -10,4 +10,8 @@ public interface ProjectService {
     List<Project> getAllProjects();
     Project updateProject(Long id, Project projects);
     void deleteProjectById(Long id);
+    //dashboard code
+    Project getProjectbymid(Long id);
+    int checkprojects(Long id);
+
 }

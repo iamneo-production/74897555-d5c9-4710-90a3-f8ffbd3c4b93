@@ -54,7 +54,33 @@ public class ProjectController {
 		projectService.deleteProjectById(id);
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}
+//dashboard code
+@Autowired
+	private MembersRepository membersRepository;
+	@GetMapping("/project/user/{id}")
+	  public Members getProjectuid(@PathVariable Long id)
+    {
+        return membersRepository.findByValuee(id);
+    }
 
+	
+	@GetMapping("/project/manager/check/{id}")
+    public int checkProjectmanager(@PathVariable Long id)
+    {
+        int b=projectService.checkprojects(id);
+       
+        return b;
+    }
+
+	
+	@GetMapping("/project/user/check/{id}")
+    public int checkProjectuser(@PathVariable Long id)
+    {
+        int b=membersRepository.checkproject(id);
+        
+        return b;
+    }
+   
 	
 	
 }
