@@ -11,7 +11,7 @@ import Navbar from "./components/Dashboard/Navbar";
 import ReportDetails from "./components/Report/ReportDetails";
 import { useContext } from "react";
 import { TokenContext } from "./utils/TokenContext";
-import Communication from "./components/Communication/Communication";
+import Communication from "./components/communication/Communication";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 
