@@ -7,7 +7,9 @@ const Dashboard = () => {
   const decodedToken = JSON.parse(localStorage.getItem("decodedToken"));
   const [project, setProject] = useState({});
   const [checkProject, setCheckProject] = useState(null);
+
   const [teamCount, setTeamCount] = useState(null);
+
   useEffect(() => {
     check();
   });
@@ -64,7 +66,7 @@ const Dashboard = () => {
       console.error("Error loading project:", error);
     }
   };
-
+  
   useEffect(() => {
     if (project.members && project.members.length > 0) {
       const teammembercount = project.members.length;
