@@ -206,7 +206,7 @@ const ReportDetails = () => {
                     <td>{task.taskId}</td>
                     <td>{task.taskName}</td>
                     <td>{task.taskDescription}</td>
-                    <td>{((task.assignedTo).split(' '))[1]}</td>
+                    <td>{task.assignedTo}</td>
                     <td>{task.priority}</td>
                     <td>{task.deadline}</td>
                     <td>{task.status}</td>
