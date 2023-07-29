@@ -78,13 +78,13 @@ const ReportDetails = () => {
   };
 
   const data = tasks.map((task) => {
-    const uname=(task.assignedTo).split(' ');
+    const uname=task.assignedTo;
     if (task.status === "pending") {
-      return { name: uname[1], progress: 0 };
+      return { name: uname, progress: 0 };
     } else if (task.status === "inprogress") {
-      return { name: uname[1], progress: 50 };
+      return { name: uname, progress: 50 };
     } else {
-      return { name: uname[1], progress: 100 };
+      return { name: uname, progress: 100 };
     }
   });
 
