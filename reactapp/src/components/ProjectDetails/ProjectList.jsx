@@ -15,7 +15,7 @@ const ProjectList = ({
 
   const navigate = useNavigate();
   const deleteProject = async (projectid) => {
-    await api.delete(`http://localhost:8080/projects/${projectid}`, projectid);
+    await api.delete(`/projects/${projectid}`, projectid);
     sweetalert();
     setTimeout(() => {
       navigate("/");
