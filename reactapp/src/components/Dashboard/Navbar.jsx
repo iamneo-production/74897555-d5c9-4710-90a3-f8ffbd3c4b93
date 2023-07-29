@@ -48,7 +48,7 @@ const Navbar = () => {
                   <Link
                     className="nav-link "
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}
@@ -68,7 +68,7 @@ const Navbar = () => {
                   <Link
                     className="nav-link"
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}
@@ -93,7 +93,7 @@ const Navbar = () => {
                     }}
                     className="nav-link"
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}

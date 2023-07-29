@@ -81,8 +81,17 @@ const EditProject = () => {
   
   return (
     <div className="container">
-      <div className="row d-flex align-items-center justify-content-center vh-100">
-        <div className="col -10 col-md-10 col-lg-9">
+      <div className="row d-flex align-items-center justify-content-center vh-100" style={{maxHeight:"90vh"}}>
+        <div className="col-0 col-md-2 col-lg-5 mx-auto">
+          <img
+            className="form-img"
+            src="https://www.shutterstock.com/shutterstock/videos/1088115067/thumb/12.jpg?ip=x480"
+            height="450px"
+            width="550px"
+            alt=""
+          />
+        </div>
+        <div className="col-12 col-md-9 col-lg-7 justify-content-center align-items-center">
           <div className="card shadow border-0 my-auto px-0 rounded">
             <form onSubmit={(e)=>onSubmit(e)}>
               <h1 className="text-center  text-white p-2" style={{backgroundColor:"rgb(26, 37, 111)"}}>
