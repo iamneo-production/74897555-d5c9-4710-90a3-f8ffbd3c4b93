@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import api, { BASE_URL } from "../../utils/api";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 const TaskCreationPage = () => {
   const decodedToken = JSON.parse(localStorage.getItem("decodedToken"));
@@ -34,7 +34,7 @@ const TaskCreationPage = () => {
         const teammembers = response.data.members;
         const transformedOptions = teammembers.map((option) => ({
           value: option.value,
-          label: option.value + " " + option.label,
+          label: option.value,
         }));
         setOptions(transformedOptions);
       })
@@ -66,21 +66,30 @@ const TaskCreationPage = () => {
     });
   };
 
-  const onSubmit = async e => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    if(role === 'MANAGER'){
+    if (role === "MANAGER") {
       await api.post(`${BASE_URL}/projects/${projectId}/tasks`, task);
       console.log("Task Created..!");
       resetForm();
       sweetalert();
       setTimeout(() => {
-      navigate(`/projectdetails/${projectId}`);
-    }, 2000);
+        navigate(`/projectdetails/${projectId}`);
+      }, 2000);
     }
   };
-  
+
   return (
-    <div className="main">
+    <div
+      className="main"
+      style={{
+        backgroundImage: `url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg')`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        height: "91vh",
+      }}
+    >
       <div
         className="Form-container position-absolute  p-5 rounded-2 d-flex justify-content-center bg-light position-absolute  "
         style={{
@@ -145,6 +154,7 @@ const TaskCreationPage = () => {
                     name="taskName"
                     value={task.taskName}
                     onChange={handleChange}
+                    maxLength={50}
                     required
                   />
                 </td>
@@ -169,6 +179,7 @@ const TaskCreationPage = () => {
                     name="taskDescription"
                     value={task.taskDescription}
                     onChange={handleChange}
+                    maxLength={200}
                     required
                   ></textarea>
                 </td>
@@ -282,14 +293,6 @@ const TaskCreationPage = () => {
                     onChange={handleChange}
                   />
                   InProgress
-                  <input
-                    type="radio"
-                    name="status"
-                    value="completed"
-                    checked={task.status === "completed"}
-                    onChange={handleChange}
-                  />
-                  Completed
                 </td>
               </tr>
               <tr></tr>

@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from "react";
+import React,{ useState,useEffect } from "react";
 import { Link , useLocation , useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import api, { BASE_URL } from "../../utils/api";
@@ -105,7 +105,15 @@ const TaskList = () => {
     }
   }
   return (
-    <div>
+    <div 
+      style={{
+        backgroundImage: `url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg')`,
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        minHeight: "91vh",
+        width: "100%",
+    }}>
       <div className="d-flex justify-content-center align-item-center vh-60">
         <div
           className="text-white p-3 m-4 text-center"
@@ -184,7 +192,7 @@ const TaskList = () => {
                   <label>
                     {" "}
                     <strong>Assigned to : </strong>{" "}
-                    {task.assignedTo.split(" ")[1].trim()}
+                    EMP ID {task.assignedTo}
                   </label>
                 </>
               ) : null}

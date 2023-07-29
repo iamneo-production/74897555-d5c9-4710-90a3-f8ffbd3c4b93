@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { Link, useNavigate} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { TokenContext } from "../../utils/TokenContext";
 
 const Navbar = () => {
   const { decodedToken } = useContext(TokenContext);
-  const navigate = useNavigate();
+
   return (
     <nav
       className="navbar navbar-expand-lg navbar-expand-md navbar-dark w-100 sticky-top"
@@ -48,7 +48,7 @@ const Navbar = () => {
                   <Link
                     className="nav-link "
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}
@@ -68,7 +68,7 @@ const Navbar = () => {
                   <Link
                     className="nav-link"
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}
@@ -89,15 +89,15 @@ const Navbar = () => {
                   <button
                     onClick={() => {
                       localStorage.removeItem("token");
-                      navigate("/")
                       window.location.reload();
                     }}
                     className="nav-link"
                     style={{
-                      fontSize: "20px",
+                      fontSize: "18px",
                       borderBottom: "2px solid transparent",
                       transition: "border-color 0.5s",
                     }}
+                    to="/login"
                     onMouseEnter={(e) =>
                       (e.target.style.borderColor = "#0dcaf0")
                     }
