@@ -24,7 +24,6 @@ const LoginPage = ({ setSign }) => {
       const { token } = response.data;
       localStorage.setItem("token", token);
       window.location.reload();
-      console.log("Navigation Done!");
     } catch (error) {
       if (error.response && error.response.status === 403) {
         setError("Invalid email or password.");
@@ -34,35 +33,38 @@ const LoginPage = ({ setSign }) => {
       console.error("Error:", error.response.data);
     }
   };
+
   return (
     <main>
-      <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 text-center">
+      <div className="col-md-8 col-lg-6 offset-md-2 offset-lg-3 text-center" style={{ maxWidth: "500px" }}>
         <h1>Login</h1>
-        {error && <p>{error}</p>}
+        {error && <p className="alert alert-danger">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <div>
+          <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
               name="email"
+              className="form-control"
               value={loginData.email}
               onChange={handleInputChange}
               required
             />
           </div>
-          <div>
+          <div className="form-group">
             <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
               name="password"
+              className="form-control"
               value={loginData.password}
               onChange={handleInputChange}
               required
             />
           </div>
-          <p onClick={() => setSign("signup")}>
+          <p onClick={() => setSign("signup")} style={{ cursor: "pointer" }}>
             Don't have an account? <span>Signup</span>{" "}
           </p>
           <button type="submit" className="btn btn-primary btn-lg btn-block">

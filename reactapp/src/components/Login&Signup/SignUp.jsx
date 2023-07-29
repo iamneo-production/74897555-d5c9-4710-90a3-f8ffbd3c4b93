@@ -53,102 +53,112 @@ const SignUp = ({ setSign }) => {
 
   return (
     <main>
-      <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 text-center">
+      <div
+        className="col-md-8 col-lg-6 offset-md-2 offset-lg-3 text-center"
+        style={{ minWidth: "350px", maxHeight: "500px" }}
+      >
         <h1>Register</h1>
-        {error && <p>{error}</p>}
+        {error && <p className="alert alert-danger">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <label>
-            First Name:
-            <input
-              type="text"
-              name="firstName"
-              className="form-control form-control-sm "
-              value={formData.firstName}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          <br />
+          <div className="row">
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>First Name:</label>
+                <input
+                  type="text"
+                  name="firstName"
+                  className="form-control"
+                  value={formData.firstName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+            <div className="col-md-6">
+              <div className="form-group">
+                <label>Last Name:</label>
+                <input
+                  type="text"
+                  name="lastName"
+                  className="form-control"
+                  value={formData.lastName}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+            </div>
+          </div>
 
-          <label>
-            Last Name:
-            <input
-              type="text"
-              name="lastName"
-              className="form-control form-control-sm "
-              value={formData.lastName}
-              onChange={handleInputChange}
-              required
-            />
-          </label>
-          <br />
-          <label>
-            Username:
+          <div className="form-group">
+            <label>Username:</label>
             <input
               type="text"
               name="username"
-              className="form-control form-control-sm "
+              className="form-control"
               value={formData.username}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <br />
+          </div>
 
-          <label>
-            Email:
+          <div className="form-group">
+            <label>Email:</label>
             <input
               type="email"
               name="email"
-              className="form-control form-control-sm "
+              className="form-control"
               value={formData.email}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <br />
+          </div>
 
-          <label>
-            Password:
+          <div className="form-group">
+            <label>Password:</label>
             <input
               type="password"
               name="password"
-              className="form-control form-control-sm "
+              className="form-control"
               value={formData.password}
               onChange={handleInputChange}
               required
             />
-          </label>
-          <br />
+          </div>
 
-          <label>User Type:</label>
-          <br />
+          <div className="form-group ">
+            <label className="mr-3">User Type:</label>
+            <div className="d-flex flex-wrap text-center justify-content-center gap-4">
+              <div className="form-check mr-3">
+                <input
+                  type="radio"
+                  name="role"
+                  value="USER"
+                  checked={formData.role === "USER"}
+                  onChange={handleInputChange}
+                  className="form-check-input"
+                />
+                <label className="form-check-label">User</label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="radio"
+                  name="role"
+                  value="MANAGER"
+                  checked={formData.role === "MANAGER"}
+                  onChange={handleInputChange}
+                  className="form-check-input"
+                />
+                <label className="form-check-label">Manager</label>
+              </div>
+            </div>
+          </div>
 
-          <label>
-            <input
-              type="radio"
-              name="role"
-              value="USER"
-              checked={formData.role === "USER"}
-              onChange={handleInputChange}
-            />
-            User
-          </label>
-          <br />
-
-          <label>
-            <input
-              type="radio"
-              name="role"
-              value="MANAGER"
-              checked={formData.role === "MANAGER"}
-              onChange={handleInputChange}
-            />
-            Manager
-          </label>
-          <br />
-          <p className="pe-auto" onClick={() => setSign("signin")}>
-            Already have a account? <span>Login</span>{" "}
+          <p
+            className="pe-auto"
+            style={{ cursor: "pointer" }}
+            onClick={() => setSign("signin")}
+          >
+            Already have an account? <span>Login</span>{" "}
           </p>
           <button type="submit" className="btn btn-primary btn-lg btn-block">
             Signup
