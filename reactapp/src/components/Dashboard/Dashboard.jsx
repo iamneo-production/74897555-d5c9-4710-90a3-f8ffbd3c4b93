@@ -7,7 +7,7 @@ const Dashboard = () => {
   const decodedToken = JSON.parse(localStorage.getItem("decodedToken"));
   const [project, setProject] = useState({});
   const [checkProject, setCheckProject] = useState(null);
-
+  const [teamCount, setTeamCount] = useState(null);
   useEffect(() => {
     check();
   });
@@ -65,6 +65,12 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    if (project.members && project.members.length > 0) {
+      const teammembercount = project.members.length;
+      setTeamCount(teammembercount);
+    }
+  }, [project]);
   const check = () => {
     const loginid = decodedToken.id;
     if (decodedToken.role === "MANAGER") {
@@ -123,47 +129,62 @@ const Dashboard = () => {
           ) : null}
         </div>
       ) : (
-        <div className="m-3">
-          <div
-            className="box1 d-flex border p-3 border-3 border-light w-100 h-auto flex-wrap justify-content-around my-2 mx-auto"
-            style={{ maxWidth: "fit-content" }}
-          >
-            <div
-              className="m-1 bg-white text-center card shadow border-0 p-10"
-              style={{ fontSize: "18px", width: "450px" }}
-            >
-              <p className="mt-1">
-                <b>Project Id:</b> {project.id}
-              </p>
-              <p className="mt-1">
-                <b>Project name:</b> {project.projectName}
-              </p>
-              <p className=" mt-1">
-                <b>Project description:</b>
-                {project.description}
-              </p>
-              <div className="disflex d-flex text-center mx-auto ">
-                <p className="m-1">
-                  <i className="fa-solid fa-calendar-days"></i>
-                  <b>Start date :</b> {project.startDate}
+        <div
+          className="d-flex align-items-center justify-content-center"
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            height: "100vh",
+            width: "100vw",
+            backgroundImage: `url("https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg")`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="m-3">
+            <div className="d-flex border p-3 border-3 border-light w-100  h-auto flex-wrap justify-content-around my-2 mx-auto">
+              <div
+                className="m-1 bg-white text-center card shadow-lg border-0 p-4"
+                style={{ fontSize: "18px", width: "100%", maxWidth: "600px" }}
+              >
+                <p className="mt-1">
+                  <b>Project Id:</b> {project.id}
                 </p>
+                <p className="mt-1">
+                  <b>Project name:</b> {project.projectName}
+                </p>
+                <p className=" mt-1">
+                  <b>Project description:</b>
+                  {project.description}
+                </p>
+                <div className="disflex d-flex text-center mx-auto ">
+                  <p className="m-1">
+                    <i className="fa-solid fa-calendar-days"></i>
+                    <b>Start date :</b> {project.startDate}
+                  </p>
 
-                <p className="m-1">
-                  <i className="fa-solid fa-calendar-days"></i>
-                  <b>End date :</b> {project.endDate}
+                  <p className="m-1">
+                    <i className="fa-solid fa-calendar-days"></i>
+                    <b>End date :</b> {project.endDate}
+                  </p>
+                </div>
+                <p className=" mt-1">
+                  <b>Team Size:</b> {teamCount}
                 </p>
-              </div>
-              <div className="d-flex align-item-center justify-content-center mb-2">
-                <Link to={`/projectdetails/${project.id}`}>
-                  <button className=" btn btn-outline-0 border-solid border-0 rounded-2 cursor-pointer m-1 p-1 bg-info text-white">
-                    View Details
-                  </button>
-                </Link>
-                <Link to={`/report/${project.id}`}>
-                  <button className=" btn btn-outline-0 border-solid border-0 rounded-2 cursor-pointer m-1 p-1 bg-info text-white">
-                    Take Report
-                  </button>
-                </Link>
+                <div className="d-flex align-item-center justify-content-center mb-2">
+                  <Link to={`/projectdetails/${project.id}`}>
+                    <button className=" btn btn-outline-0 border-solid border-0 rounded-2 cursor-pointer m-1 p-1 bg-info text-white">
+                      View Details
+                    </button>
+                  </Link>
+                  <Link to={`/report/${project.id}`}>
+                    <button className=" btn btn-outline-0 border-solid border-0 rounded-2 cursor-pointer m-1 p-1 bg-info text-white">
+                      Take Report
+                    </button>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
