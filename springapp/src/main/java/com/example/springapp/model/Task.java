@@ -1,11 +1,11 @@
 package com.example.springapp.model;
 
-import java.beans.Transient;
 import java.time.LocalDate;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -14,9 +14,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long taskId;
+    @Column(length=50)
     private String taskName;
+    @Column(length=200)
     private String taskDescription;
     private String assignedTo;
     private LocalDate deadline;
@@ -33,13 +35,12 @@ public class Task {
     @JoinColumn(name = "userid", nullable = false)
     @JsonIgnore
     private User user;
-    private transient Integer assignedToId;
-   
+
     
     public Task() {
     }
     public Task(Long taskId, String taskName, String taskDescription, String assignedTo, LocalDate deadline,
-            String priority, String status, Project project, User user, Integer assignedToId) {
+            String priority, String status, Project project, User user) {
         this.taskId = taskId;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
@@ -49,7 +50,7 @@ public class Task {
         this.status = status;
         this.project = project;
         this.user = user;
-        this.assignedToId=assignedToId;
+       
     }
     public Long getTaskId() {
         return taskId;
@@ -105,19 +106,13 @@ public class Task {
     public void setUser(User user) {
         this.user = user;
     }
-     @Transient
-    public Integer getAssignedToId() {
-        return assignedToId;
-    }
-
-    public void setAssignedToId(Integer assignedToId) {
-        this.assignedToId = assignedToId;
-    }
+     
+ 
     @Override
     public String toString() {
         return "Task [id=" + taskId + ", taskName=" + taskName + ", taskDescription=" + taskDescription + ", assignedTo="
                 + assignedTo + ", deadline=" + deadline + ", priority=" + priority + ", status=" + status + ", project="
-                + project + ", user=" + user + ", assignedToId=" + assignedToId + "]";      
+                + project + ", user=" + user + "]";      
     }
  
 };
