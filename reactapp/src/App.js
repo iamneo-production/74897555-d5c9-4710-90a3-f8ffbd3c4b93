@@ -16,7 +16,7 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 
 const App = () => {
-  const { decodedToken } = useContext(TokenContext);
+  const { decodedToken } = useContext(TokenContext);s
 
   return (
     <div>

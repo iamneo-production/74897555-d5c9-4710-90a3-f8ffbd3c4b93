@@ -1,5 +1,5 @@
 import React from "react";
-import api, { BASE_URL } from "../../utils/api";
+import api from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
 const ProjectList = ({
@@ -17,7 +17,7 @@ const ProjectList = ({
 
   const navigate = useNavigate();
   const deleteProject = async (projectid) => {
-    await api.delete(`${BASE_URL}/projects/${projectid}`, projectid);
+    await api.delete(`http://localhost:8080/projects/${projectid}`, projectid);
     sweetalert();
     setTimeout(() => {
       navigate("/");
