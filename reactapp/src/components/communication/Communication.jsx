@@ -159,7 +159,7 @@ const Communication = () => {
                     style={{ width: "500px" }}
                     key={chat.id}
                   >
-                    <span className="text-info">{name} : </span>
+                    <span className="text-info text-dark">{name} : </span>
                     {chat.description}
                   </h6>
                 );
@@ -170,7 +170,7 @@ const Communication = () => {
                     style={{ width: "500px" }}
                     key={chat.id}
                   >
-                    <span className="text-info">{chat.name} : </span>
+                    <span className="text-info text-dark">{chat.name} : </span>
                     {chat.description}
                   </h6>
                 );
