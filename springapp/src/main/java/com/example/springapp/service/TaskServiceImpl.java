@@ -4,7 +4,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.springapp.exception.ResourceNotFoundException;
 import com.example.springapp.model.Project;
 import com.example.springapp.model.Task;
 import com.example.springapp.model.User;
@@ -51,7 +50,7 @@ public class TaskServiceImpl implements TaskService {
         String assignedTo=updatedTask.getAssignedTo();
         int assignedToId = Integer.parseInt(assignedTo);
         User user=userRepository.findById(assignedToId)
-                .orElseThrow(()-> new RuntimeException("user not found with id: "+assignedToId));
+                .orElseThrow(()-> new RuntimeException("User not found with id: "+assignedToId));
         task.setUser(user);  
         return taskRepository.save(task);   
     }
@@ -59,12 +58,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getTasksByProjectId(Long projectId) {
         if (!projectRepository.existsById(projectId)) {
-            throw new ResourceNotFoundException("Project not found with ID: " + projectId);
+           throw new RuntimeException("Project not found with id: "+ projectId);
         }
         List<Task> tasks=taskRepository.findByProjectId(projectId);
 
         if (tasks.isEmpty()) {
-            throw new ResourceNotFoundException("No tasks found");
+           throw new RuntimeException("Task not found with id: "+ taskId);
         }
         return tasks;
     }
@@ -72,12 +71,12 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public List<Task> getTasksByUserId(int userId) {
         if (!userRepository.existsById(userId)) {
-            throw new ResourceNotFoundException("User not found with ID: " + userId);
+           throw new RuntimeException("user not found with id: "+ userId);
         }
         List<Task> tasks=taskRepository.findByUserId(userId);
 
          if (tasks.isEmpty()) {
-            throw new ResourceNotFoundException("No tasks found");
+            throw new RuntimeException("Task not found with id: "+ taskId);
         }
 
         return tasks;
@@ -87,7 +86,7 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public Task getTaskById(Long id) {
         return taskRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + id));
+                .orElseThrow(()-> new RuntimeException("Task not found with id: "+ taskId));
     }
 
     @Override

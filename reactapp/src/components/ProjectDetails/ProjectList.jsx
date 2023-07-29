@@ -31,7 +31,15 @@ const ProjectList = ({
   };
 
   return (
-    <div>
+    <div
+      style={{
+      backgroundImage: `url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg')`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      minHeight: "91vh",
+      width: "100%",
+    }}>
       <div className="d-flex justify-content-center align-item-center vh-60">
         <div
           className="text-white text-center p-3 m-4"
