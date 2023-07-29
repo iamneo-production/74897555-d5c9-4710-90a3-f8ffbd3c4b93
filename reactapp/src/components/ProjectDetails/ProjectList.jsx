@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import api from "../../utils/api";
 import { useNavigate, Link } from "react-router-dom";
 import Swal from "sweetalert2";
+
 const ProjectList = ({
   projectId,
   projectName,
   projectDescription,
   projectStartDate,
   projectEndDate,
-  //onAddTask,
-  //onViewTaskDetails,
-  //onEditProject,
-  //onDeleteProject,
+  projectTeammember,
 }) => {
   const decodedToken = JSON.parse(localStorage.getItem("decodedToken"));
 
@@ -31,8 +29,17 @@ const ProjectList = ({
       timer: 1500,
     });
   };
+
   return (
-    <div>
+    <div
+      style={{
+      backgroundImage: `url('https://img.freepik.com/free-vector/hand-painted-watercolor-pastel-sky-background_23-2148902771.jpg')`,
+      backgroundPosition: "center",
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      minHeight: "91vh",
+      width: "100%",
+    }}>
       <div className="d-flex justify-content-center align-item-center vh-60">
         <div
           className="text-white text-center p-3 m-4"
@@ -67,6 +74,16 @@ const ProjectList = ({
               <strong>End Date:</strong> {projectEndDate}
             </div>
             <br />
+            <div>
+              <strong>Team Members: </strong>
+              {projectTeammember &&
+                projectTeammember.map((option, index) => (
+                  <span key={index}>
+                    {option.label}
+                    {index !== projectTeammember.length - 1 && ", "}
+                  </span>
+                ))}
+            </div>
           </div>
           <div className="col-12 col-md-4 d-flex flex-column justify-content-center align-items-center">
             {decodedToken.role === "MANAGER" ? (
