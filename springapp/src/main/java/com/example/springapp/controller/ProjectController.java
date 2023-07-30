@@ -20,7 +20,7 @@ import com.example.springapp.service.ProjectService;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
