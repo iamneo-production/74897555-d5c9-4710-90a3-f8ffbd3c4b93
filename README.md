@@ -45,7 +45,3 @@ Note:
 - Replace `http://localhost:3000` with your actual React application's port URL.
 
 By following these steps, you will enable Cross-Origin requests between your React frontend and Spring Boot backend applications, ensuring they work seamlessly together.
-
-Best regards,
-[Your Name]
-[Your Position/Role]
